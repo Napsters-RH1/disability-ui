@@ -1,4 +1,4 @@
-import VAClaimsInterface from '@/components/VAClaimsInterface'
+import VAClaimsInterface from '@/VAClaimsInterface'
 
 export default function Home() {
   return <VAClaimsInterface />

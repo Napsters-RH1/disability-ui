@@ -105,14 +105,6 @@ The application uses Tailwind CSS for styling with a focus on:
 - Consistent color scheme
 - Accessible components
 
-## Accessibility
-
-- Keyboard navigation support
-- ARIA labels and roles
-- Focus management
-- Screen reader friendly
-- Color contrast compliance
-
 ## Future Enhancements
 
 - Helm/ArgoCD Deployment Option with Vector and Graph DB Backend

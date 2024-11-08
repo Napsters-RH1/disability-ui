@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, ChangeEvent } from 'react';
+import React, { useState } from 'react';
 import { AlertCircle, FileText, Upload, Search, Check, Clock } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
@@ -14,19 +14,11 @@ interface Document {
   name: string;
 }
 
-interface EvidenceRequirements {
-  [key: string]: string[];
-}
-
-interface StepContentProps {
-  step: number;
-}
-
 const VAClaimsInterface = () => {
-  const [step, setStep] = useState<number>(1);
-  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [step, setStep] = useState(1);
+  const [searchQuery, setSearchQuery] = useState('');
   const [selectedCondition, setSelectedCondition] = useState<Condition | null>(null);
-  const [conditions, setConditions] = useState<Condition[]>([
+  const [conditions] = useState<Condition[]>([
     {
       id: 1,
       name: "PTSD",
@@ -44,15 +36,26 @@ const VAClaimsInterface = () => {
     }
   ]);
   const [documents, setDocuments] = useState<Document[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
-  const handleConditionSelect = (condition: Condition): void => {
+  // Removed unused state variables
+  // const [loading, setLoading] = useState(false);
+  // const [error, setError] = useState(null);
+
+  const handleConditionSelect = (condition: Condition) => {
     console.log('Selecting condition:', condition);
     setSelectedCondition(condition);
   };
 
-  const handleContinue = (): void => {
+  const handleFileUpload = (files: FileList | null) => {
+    if (files) {
+      const newDocuments = Array.from(files).map(file => ({
+        name: file.name
+      }));
+      setDocuments(prev => [...prev, ...newDocuments]);
+    }
+  };
+
+  const handleContinue = () => {
     console.log('Current step:', step);
     console.log('Selected condition:', selectedCondition);
     if (step < 4) {
@@ -60,14 +63,10 @@ const VAClaimsInterface = () => {
     }
   };
 
-  const handleBack = (): void => {
+  const handleBack = () => {
     if (step > 1) {
       setStep(step - 1);
     }
-  };
-
-  const handleSearchChange = (e: ChangeEvent<HTMLInputElement>): void => {
-    setSearchQuery(e.target.value);
   };
 
   const ConditionSearch = () => (
@@ -83,7 +82,7 @@ const VAClaimsInterface = () => {
             className="w-full pl-10 pr-4 py-2 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none"
             placeholder="Type to search conditions..."
             value={searchQuery}
-            onChange={handleSearchChange}
+            onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
       </div>
@@ -94,7 +93,7 @@ const VAClaimsInterface = () => {
             c.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
             c.description.toLowerCase().includes(searchQuery.toLowerCase())
           )
-            .map((condition: Condition) => (
+          .map(condition => (
             <div
               key={condition.id}
               onClick={() => handleConditionSelect(condition)}
@@ -112,8 +111,6 @@ const VAClaimsInterface = () => {
     </div>
   );
 
-  // Rest of your component code...
-
   const RequirementsReview = () => {
     if (!selectedCondition) {
       return (
@@ -129,7 +126,6 @@ const VAClaimsInterface = () => {
       );
     }
 
-    // Mock requirements data - replace with actual API data later
     const requirements = [
       "Current medical diagnosis",
       "Service treatment records",
@@ -163,15 +159,32 @@ const VAClaimsInterface = () => {
 
   const DocumentUpload = () => (
     <div className="max-w-2xl mx-auto mt-8">
-      <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
+      <div 
+        className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center"
+        onDragOver={(e) => e.preventDefault()}
+        onDrop={(e) => {
+          e.preventDefault();
+          handleFileUpload(e.dataTransfer.files);
+        }}
+      >
         <Upload className="mx-auto text-gray-400 mb-4" size={48} />
         <h3 className="font-semibold mb-2">Upload Evidence Documents</h3>
         <p className="text-gray-600 mb-4">
           Drag and drop files here or click to browse
         </p>
-        <button className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+        <input
+          type="file"
+          multiple
+          className="hidden"
+          id="file-upload"
+          onChange={(e) => handleFileUpload(e.target.files)}
+        />
+        <label 
+          htmlFor="file-upload"
+          className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors cursor-pointer inline-block"
+        >
           Select Files
-        </button>
+        </label>
       </div>
 
       <div className="mt-6 space-y-3">
@@ -288,14 +301,14 @@ const VAClaimsInterface = () => {
           <button
             className="px-6 py-2 border-2 border-blue-600 text-blue-600 rounded-lg hover:bg-blue-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             onClick={handleBack}
-            disabled={step === 1 || loading}
+            disabled={step === 1}
           >
             Back
           </button>
           <button
             className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             onClick={handleContinue}
-            disabled={step === 4 || loading || (step === 1 && !selectedCondition)}
+            disabled={step === 4 || (step === 1 && !selectedCondition)}
           >
             Continue
           </button>

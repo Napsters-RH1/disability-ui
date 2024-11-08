@@ -43,8 +43,8 @@ const VAClaimsInterface = () => {
   // const [error, setError] = useState(null);
 
   const handleConditionSelect = (condition: Condition) => {
-    console.log('Selecting condition:', condition);
-    setSelectedCondition(condition);
+    console.log('Toggling condition:', condition);
+    setSelectedCondition(prev => prev?.id === condition.id ? null : condition);
   };
 
   const handleFileUpload = (files: FileList | null) => {
@@ -87,7 +87,7 @@ const VAClaimsInterface = () => {
           />
         </div>
       </div>
-
+  
       <div className="space-y-4">
         {conditions
           .filter(c => 
@@ -103,11 +103,37 @@ const VAClaimsInterface = () => {
                   ? 'border-blue-600 bg-blue-50'
                   : 'border-gray-200 hover:border-blue-300'
               }`}
+              role="button"
+              aria-pressed={selectedCondition?.id === condition.id}
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  handleConditionSelect(condition);
+                }
+              }}
             >
-              <h3 className="font-semibold">{condition.name}</h3>
-              <p className="text-gray-600">{condition.description}</p>
+              <div className="flex justify-between items-center">
+                <div>
+                  <h3 className="font-semibold">{condition.name}</h3>
+                  <p className="text-gray-600">{condition.description}</p>
+                </div>
+                {selectedCondition?.id === condition.id && (
+                  <span className="text-blue-600 text-sm">
+                    Selected
+                  </span>
+                )}
+              </div>
             </div>
           ))}
+        {conditions.filter(c => 
+          c.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          c.description.toLowerCase().includes(searchQuery.toLowerCase())
+        ).length === 0 && (
+          <div className="text-center p-4 text-gray-500">
+            No conditions found matching your search
+          </div>
+        )}
       </div>
     </div>
   );

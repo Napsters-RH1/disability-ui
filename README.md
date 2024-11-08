@@ -1,36 +1,133 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# VA Disability Claims Assistant
+
+A user-friendly web application built with Next.js and React to help veterans manage their VA disability claims process. The application provides an intuitive interface for searching and selecting medical conditions, reviewing requirements, uploading evidence, and submitting claims.
+
+AI Functionality to be added soon!
+
+## Features
+
+
+- **Multi-step Form Process**:
+  1. Condition Selection
+  2. Requirements Review
+  3. Document Upload
+  4. Final Review
+- **Interactive Chat Assistant**: AI assistant component to help guide users through the claims process
+- **Document Management**: Easy drag-and-drop interface for uploading evidence documents
+- **Progress Tracking**: Visual progress bar showing current step in the claims process
+- **Responsive Design**: Works seamlessly across desktop and mobile devices
+
+## Technology Stack
+
+- **Framework**: Next.js 15
+- **UI Library**: React 18
+- **Styling**: Tailwind CSS
+- **Icons**: Lucide React
+- **Components**: shadcn/ui
+- **Type Safety**: TypeScript
+
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
+- Node.js (v14 or higher)
+- npm or yarn
+
+### Installation
+
+1. Clone the repository:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/Napsters-RH1/disability-ui
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Install dependencies:
+```bash
+npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Run the development server:
+```bash
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+4. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-## Learn More
+## Usage
 
-To learn more about Next.js, take a look at the following resources:
+1. **Search and Select Conditions**
+   - Use the search bar to find specific medical conditions
+   - Click on conditions to select/deselect them
+   - Selected conditions will be highlighted and tracked
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+2. **Review Requirements**
+   - View required evidence for each selected condition
+   - Get detailed information about documentation needs
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+3. **Upload Documents**
+   - Drag and drop files or use the file browser
+   - Support for multiple file uploads
+   - Visual confirmation of uploaded files
 
-## Deploy on Vercel
+4. **Review and Submit**
+   - Final review of all selected conditions and uploaded documents
+   - Submit claim when ready
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Key Components
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### PermanentInput
+A specialized input component that maintains focus during typing and search operations.
+
+### ConditionsList
+Displays filterable list of medical conditions with selection functionality.
+
+### ChatAssistant
+An AI-powered assistant that provides guidance and answers questions throughout the claims process.
+
+### DocumentUpload
+Handles file uploads with drag-and-drop support and progress tracking.
+
+## State Management
+
+The application uses React's built-in hooks for state management, with the main state logic centralized in the `useVAClaimsState` custom hook. This provides:
+
+- Step tracking
+- Condition selection
+- Document management
+- Search functionality
+
+## Styling
+
+The application uses Tailwind CSS for styling with a focus on:
+- Clean, modern design
+- Responsive layouts
+- Consistent color scheme
+- Accessible components
+
+## Accessibility
+
+- Keyboard navigation support
+- ARIA labels and roles
+- Focus management
+- Screen reader friendly
+- Color contrast compliance
+
+## Future Enhancements
+
+- Helm/ArgoCD Deployment Option with Vector and Graph DB Backend
+- Document -> vector db ingestion
+- LLM chat capabilities
+
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## Acknowledgments
+
+- Design inspired by VA.gov
+- Icons provided by Lucide React
+- UI components from shadcn/ui

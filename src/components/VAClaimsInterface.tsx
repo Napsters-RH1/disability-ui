@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { AlertCircle, FileText, Upload, Search, Check, Clock } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import ChatAssistant from './ChatAssistant';
 
 interface Condition {
   id: number;
@@ -314,6 +315,7 @@ const VAClaimsInterface = () => {
           </button>
         </div>
       </main>
+      <ChatAssistant />
     </div>
   );
 };

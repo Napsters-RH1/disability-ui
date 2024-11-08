@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { MessageSquare, X, Send, Loader2 } from 'lucide-react';
-import { Alert } from '@/components/ui/alert';
+// import { Alert } from '@/components/ui/alert';
 
 interface Message {
   role: 'user' | 'assistant';

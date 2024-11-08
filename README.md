@@ -43,6 +43,7 @@ git clone https://github.com/Napsters-RH1/disability-ui
 
 2. Install dependencies:
 ```bash
+cd disability-ui
 npm install
 ```
 
